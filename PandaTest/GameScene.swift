@@ -17,9 +17,10 @@ class GameScene: SKScene {
     
     let panda = SKSpriteNode(imageNamed: "panda_01_idle_01")
     let playableRect:CGRect
-    let maxMovePerSecond = 7
+    let maxMovePerSecond = 100
     var dt:TimeInterval = 0
     var lastUpdateTime:TimeInterval = 0
+    var velocity:CGPoint = .zero
     
     //Initializer.
     
@@ -52,7 +53,11 @@ class GameScene: SKScene {
         panda.position = CGPoint(x:100,
                                  y:150)
         panda.setScale(3.0)
+        
+        velocity = CGPoint(x:maxMovePerSecond, y:0)
         addChild(panda)
+        
+      
         
     }
     
@@ -64,15 +69,21 @@ class GameScene: SKScene {
            {
                 dt = currentTime - lastUpdateTime
             }
-        lastUpdateTime = currentTime
+            lastUpdateTime = currentTime
+        
+        move(sprite: panda, velocity:velocity )
+        boundsCheck()
     }
     
     
     func move(sprite:SKSpriteNode, velocity:CGPoint)
     {
-        run(SKAction.repeatForever(SKAction.run(){
-            sprite.position.x += CGFloat(400)
-        }))
+        let amountToMove = CGPoint(x:velocity.x * CGFloat(dt),
+                                   y:velocity.y * CGFloat(dt))
+        sprite.position += amountToMove
+//       // run(SKAction.repeatForever(SKAction.run(){
+//         //   sprite.position.x += CGFloat(400)
+//        }))
     }
     
     
@@ -87,6 +98,29 @@ class GameScene: SKScene {
            addChild(shape)
           }
 
+    
+    
+    func boundsCheck()
+    {
+        let bottomLeft:CGPoint = CGPoint(x:0,
+                                         y:playableRect.minY)
+        let topRight:CGPoint = CGPoint(x:size.width,
+                                       y:playableRect.maxY)
+        if panda.position.x >= topRight.x
+        {
+            velocity.x = -velocity.x
+        }
+        if panda.position.x <= bottomLeft.x
+        {
+            velocity.x = -velocity.x
+        }
+        
+    }
+    
+    
+    
+    //JUMP
+    
     
     
     
