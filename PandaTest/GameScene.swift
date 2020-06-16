@@ -22,6 +22,12 @@ class GameScene: SKScene {
     var lastUpdateTime:TimeInterval = 0
     var velocity:CGPoint = .zero
     
+    var lives = 3
+    
+    
+    let labelNode = SKLabelNode(fontNamed: "Chalkduster")
+    
+    
     //Initializer.
     
     override init(size: CGSize) {
@@ -56,6 +62,16 @@ class GameScene: SKScene {
         
         velocity = CGPoint(x:maxMovePerSecond, y:0)
         addChild(panda)
+        spawnSpikes()
+        
+        
+        labelNode.text = "Lives: \(lives)"
+        labelNode.fontColor = .black
+        labelNode.fontSize = 100
+        labelNode.zPosition = 1300
+        labelNode.position = CGPoint(x:300,
+                                     y:500)
+        addChild(labelNode)
         
       
         
@@ -70,9 +86,10 @@ class GameScene: SKScene {
                 dt = currentTime - lastUpdateTime
             }
             lastUpdateTime = currentTime
-        
+       
         move(sprite: panda, velocity:velocity )
         boundsCheck()
+        collideSpike()
     }
     
     
@@ -120,6 +137,65 @@ class GameScene: SKScene {
     
     
     //JUMP
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        jump(panda: panda, velocity: velocity)
+    }
+    
+    func jump(panda:SKSpriteNode, velocity:CGPoint)
+    {
+        var xVal:CGFloat = 85.0
+        if velocity.x <= 0
+        {
+            xVal = -xVal
+        }
+        else
+        {
+            xVal = CGFloat(abs(xVal))
+        }
+        let goUp = SKAction.moveBy(x: xVal, y: 200, duration: 0.5)
+        let goDown = SKAction.moveBy(x: xVal, y: -200, duration: 0.5)
+        
+        let sequence:[SKAction] = [goUp, goDown]
+        
+        panda.run(SKAction.sequence(sequence))
+        
+    }
+    
+    
+    func spawnSpikes()
+    {
+        let spike = SKSpriteNode(imageNamed: "spikes")
+        spike.position = CGPoint(x: CGFloat.random(min: playableRect.minX + 150,
+                                                   max:playableRect.maxX - 150),
+                                y:130 )
+       spike.setScale(2.0)
+        spike.name = "spike"
+        addChild(spike)
+        
+    }
+    
+    
+    func collideSpike()
+    {
+        enumerateChildNodes(withName: "spike")
+        {
+            node, _ in
+            let spike = node as! SKSpriteNode
+            if spike.frame.offsetBy(dx: 50, dy: 50).intersects(self.panda.frame)
+            {
+                self.lives -= 1
+                self.labelNode.text = "Lives: \(self.lives)"
+             
+            }
+        }
+    }
+    
+    func reset()
+    {
+    }
+    
     
     
     
