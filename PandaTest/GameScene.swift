@@ -123,6 +123,11 @@ class GameScene: SKScene {
         let amountToMove = CGPoint(x:velocity.x * CGFloat(dt),
                                    y:velocity.y * CGFloat(dt))
         sprite.position += amountToMove
+        
+        
+        
+        
+        
 //       // run(SKAction.repeatForever(SKAction.run(){
 //         //   sprite.position.x += CGFloat(400)
 //        }))
@@ -230,7 +235,7 @@ class GameScene: SKScene {
                            max:playableRect.maxX - 150),
         y:300 )
         coin.name = "exit"
-       
+        coin.setScale(0.3)
         addChild(coin)
     }
     
@@ -284,9 +289,16 @@ class GameScene: SKScene {
         {
             node, _ in
             
-            self.panda.removeFromParent()
+            let exit = node as! SKSpriteNode
+            if exit.frame.insetBy(dx: 50   , dy: 50).intersects(self.panda.frame)
+            {
+                self.panda.removeFromParent()
+                
+                let levelTwo = LevelTwo(size:self.size)
+                let reveal = SKTransition.reveal(with: .up, duration: 1.0)
+                self.view?.presentScene(levelTwo, transition: reveal)
+            }
             
-            let levelTwo = LevelTwo
             
         }
         //reset()
