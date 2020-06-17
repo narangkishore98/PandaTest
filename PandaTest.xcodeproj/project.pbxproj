@@ -14,6 +14,8 @@
 		2EEE571E249975AD007C86CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE571D249975AD007C86CB /* Assets.xcassets */; };
 		2EEE5721249975AD007C86CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE571F249975AD007C86CB /* LaunchScreen.storyboard */; };
 		2EEE572924997CA1007C86CB /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE572824997CA1007C86CB /* MyUtils.swift */; };
+		2EEE572B24999533007C86CB /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE572A24999533007C86CB /* GameOverScene.swift */; };
+		2EEE572D24999E83007C86CB /* LevelTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE572C24999E83007C86CB /* LevelTwo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		2EEE5720249975AD007C86CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EEE5722249975AD007C86CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EEE572824997CA1007C86CB /* MyUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
+		2EEE572A24999533007C86CB /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		2EEE572C24999E83007C86CB /* LevelTwo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelTwo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				2EEE571F249975AD007C86CB /* LaunchScreen.storyboard */,
 				2EEE5722249975AD007C86CB /* Info.plist */,
 				2EEE572824997CA1007C86CB /* MyUtils.swift */,
+				2EEE572A24999533007C86CB /* GameOverScene.swift */,
+				2EEE572C24999E83007C86CB /* LevelTwo.swift */,
 			);
 			path = PandaTest;
 			sourceTree = "<group>";
@@ -141,10 +147,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EEE572B24999533007C86CB /* GameOverScene.swift in Sources */,
 				2EEE5717249975A7007C86CB /* GameScene.swift in Sources */,
 				2EEE5719249975A7007C86CB /* GameViewController.swift in Sources */,
 				2EEE5711249975A7007C86CB /* AppDelegate.swift in Sources */,
 				2EEE572924997CA1007C86CB /* MyUtils.swift in Sources */,
+				2EEE572D24999E83007C86CB /* LevelTwo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

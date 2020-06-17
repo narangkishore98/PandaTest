@@ -24,6 +24,8 @@ class GameScene: SKScene {
     
     var lives = 3
     
+    var coinEarned = 0
+    var exitShown = false
     
     var lastChanged = 0
     
@@ -65,7 +67,12 @@ class GameScene: SKScene {
         
         velocity = CGPoint(x:maxMovePerSecond, y:0)
         addChild(panda)
+       
+        
         spawnSpikes()
+        spawnSpikes()
+        spawnCoin()
+        
         
         
         labelNode.text = "Lives: \(lives)"
@@ -94,6 +101,18 @@ class GameScene: SKScene {
       collideSpike()
         labelNode.text = "Lives \(lives)"
    
+        if lives<=0
+        {
+            let gameOverScene = GameOverScene(size: size, won: false)
+            let reveal = SKTransition.flipHorizontal(withDuration: 1.0)
+            view?.presentScene(gameOverScene,transition: reveal )
+        }
+        
+        if coinEarned>=1 && !exitShown
+        {
+            spawnExit()
+            exitShown = true
+        }
        
       
     }
@@ -193,6 +212,30 @@ class GameScene: SKScene {
         
     }
     
+    func spawnCoin()
+    {
+        let coin = SKSpriteNode(imageNamed: "coin")
+        coin.position = CGPoint(x: CGFloat.random(min: playableRect.minX + 150,
+                           max:playableRect.maxX - 150),
+        y:300 )
+        coin.name = "coin"
+        coin.setScale(0.3)
+        addChild(coin)
+    }
+    
+    func spawnExit()
+    {
+        let coin = SKSpriteNode(imageNamed: "exit")
+        coin.position = CGPoint(x: CGFloat.random(min: playableRect.minX + 150,
+                           max:playableRect.maxX - 150),
+        y:300 )
+        coin.name = "exit"
+       
+        addChild(coin)
+    }
+    
+    
+    
     
     func collideSpike()
     {
@@ -201,7 +244,7 @@ class GameScene: SKScene {
         {
             node, _ in
             let spike = node as! SKSpriteNode
-            if spike.frame.insetBy(dx: 25, dy: 25).intersects(self.panda.frame)
+            if spike.frame.insetBy(dx: 30, dy: 30).intersects(self.panda.frame.insetBy(dx: 20, dy: 20))
             {
                 //self.lastChanged -= 1
                 spikes.append(spike)
@@ -209,16 +252,43 @@ class GameScene: SKScene {
                 self.lives -= 1
                 self.panda.position = CGPoint(x:100,
                                                     y:150)
-                self.spawnSpikes()
+               
+                
                 
              
             }
             
+           
         }
-        for spike in spikes{
+        for spike in spikes
+        {
             spike.removeFromParent()
+             self.spawnSpikes()
+            
         }
-   
+       
+        enumerateChildNodes(withName: "coin")
+        {node ,_ in
+                     
+            let coin = node as! SKSpriteNode
+                if coin.frame.intersects(self.panda.frame)
+            {
+                self.coinEarned += 1
+                coin.removeFromParent()
+            }
+        
+        }
+       
+        
+        enumerateChildNodes(withName: "exit")
+        {
+            node, _ in
+            
+            self.panda.removeFromParent()
+            
+            let levelTwo = LevelTwo
+            
+        }
         //reset()
     }
     
@@ -228,6 +298,9 @@ class GameScene: SKScene {
              panda.position = CGPoint(x:100,
                                       y:150)
     }
+    
+    
+    
     
     
     
